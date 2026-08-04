@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-d0 Tasks</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+    <script type="module" src="./src/app.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace" aria-labelledby="app-title">
+        <header class="app-header">
+          <div>
+            <p class="eyebrow">To-d0</p>
+            <h1 id="app-title">Tasks</h1>
+          </div>
+          <div class="completion-meter" aria-live="polite">
+            <span class="meter-ring" id="meter-ring" aria-hidden="true"></span>
+            <span class="meter-copy" id="meter-copy">0%</span>
+          </div>
+        </header>
+
+        <form class="task-form" id="task-form" autocomplete="off">
+          <label class="field title-field">
+            <span>Task</span>
+            <input
+              id="task-title"
+              name="title"
+              type="text"
+              maxlength="120"
+              required
+              placeholder="Plan sprint retro"
+            />
+          </label>
+          <label class="field">
+            <span>Priority</span>
+            <select id="task-priority" name="priority">
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="low">Low</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Due</span>
+            <input id="task-due-date" name="dueDate" type="date" />
+          </label>
+          <label class="field notes-field">
+            <span>Notes</span>
+            <textarea
+              id="task-notes"
+              name="notes"
+              maxlength="280"
+              rows="2"
+              placeholder="Optional details"
+            ></textarea>
+          </label>
+          <button class="primary-action" type="submit">
+            <span class="icon" aria-hidden="true" data-icon="plus"></span>
+            <span>Add task</span>
+          </button>
+        </form>
+
+        <section class="summary-strip" aria-label="Task summary">
+          <div>
+            <span class="summary-value" id="stat-total">0</span>
+            <span class="summary-label">Total</span>
+          </div>
+          <div>
+            <span class="summary-value" id="stat-active">0</span>
+            <span class="summary-label">Active</span>
+          </div>
+          <div>
+            <span class="summary-value urgent" id="stat-overdue">0</span>
+            <span class="summary-label">Overdue</span>
+          </div>
+          <div>
+            <span class="summary-value complete" id="stat-completed">0</span>
+            <span class="summary-label">Done</span>
+          </div>
+        </section>
+
+        <section class="controls" aria-label="Task controls">
+          <label class="search-box">
+            <span class="icon" aria-hidden="true" data-icon="search"></span>
+            <span class="sr-only">Search tasks</span>
+            <input id="task-search" type="search" placeholder="Search tasks" />
+          </label>
+          <div class="segmented" role="group" aria-label="Status filter">
+            <button class="filter-button is-active" type="button" data-status="all">All</button>
+            <button class="filter-button" type="button" data-status="active">Active</button>
+            <button class="filter-button" type="button" data-status="overdue">Overdue</button>
+            <button class="filter-button" type="button" data-status="completed">Done</button>
+          </div>
+          <label class="priority-filter">
+            <span class="sr-only">Filter by priority</span>
+            <select id="priority-filter">
+              <option value="all">All priorities</option>
+              <option value="high">High priority</option>
+              <option value="medium">Medium priority</option>
+              <option value="low">Low priority</option>
+            </select>
+          </label>
+          <button class="ghost-action" id="clear-completed" type="button">
+            <span class="icon" aria-hidden="true" data-icon="trash"></span>
+            <span>Clear done</span>
+          </button>
+        </section>
+
+        <section class="task-region" aria-live="polite">
+          <p class="empty-state" id="empty-state">No tasks match this view.</p>
+          <ul class="task-list" id="task-list"></ul>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
