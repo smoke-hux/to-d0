@@ -1,17 +1,21 @@
 :root {
   color-scheme: light;
-  --bg: #f7f4ee;
-  --surface: #fffdfa;
-  --surface-muted: #f4f0e8;
-  --text: #25302b;
-  --muted: #6d746f;
-  --line: #d8d1c4;
-  --accent: #0f8b62;
-  --accent-dark: #0a684a;
-  --danger: #bf3b30;
-  --warning: #a96800;
-  --info: #256f9c;
-  --shadow: 0 18px 50px rgba(37, 48, 43, 0.12);
+  --bg: #eef2f5;
+  --surface: #ffffff;
+  --surface-muted: #f5f7fa;
+  --text: #17202a;
+  --muted: #667085;
+  --line: #d7dde5;
+  --accent: #147d64;
+  --accent-dark: #0c5f4c;
+  --accent-soft: #e0f2ed;
+  --danger: #c24135;
+  --danger-soft: #fde9e7;
+  --warning: #b36b00;
+  --warning-soft: #fff0c7;
+  --info: #2563eb;
+  --info-soft: #e9efff;
+  --shadow: 0 16px 40px rgba(23, 32, 42, 0.12);
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
@@ -26,7 +30,7 @@ body {
   margin: 0;
   color: var(--text);
   background:
-    linear-gradient(180deg, rgba(15, 139, 98, 0.1), transparent 280px),
+    linear-gradient(180deg, rgba(20, 125, 100, 0.14), rgba(37, 99, 235, 0.07) 320px, transparent 321px),
     var(--bg);
 }
 
@@ -105,16 +109,12 @@ h2 {
   margin-bottom: 18px;
 }
 
-.task-composer,
-.task-board {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(255, 253, 250, 0.92);
-  box-shadow: var(--shadow);
-}
-
 .task-composer {
   padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow);
 }
 
 .task-form {
@@ -125,12 +125,14 @@ h2 {
 }
 
 .field,
-.search-field {
+.search-field,
+.sort-field {
   display: grid;
   gap: 7px;
 }
 
-.field span {
+.field span,
+.sort-field span {
   color: var(--muted);
   font-size: 0.83rem;
   font-weight: 800;
@@ -152,7 +154,7 @@ input:focus,
 select:focus,
 button:focus-visible {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(15, 139, 98, 0.16);
+  box-shadow: 0 0 0 3px rgba(20, 125, 100, 0.16);
 }
 
 .primary-button,
@@ -203,7 +205,7 @@ button:focus-visible {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  align-items: center;
+  align-items: end;
 }
 
 .filter-group {
@@ -229,13 +231,20 @@ button:focus-visible {
   border-color: var(--line);
 }
 
+.toolbar-fields {
+  display: grid;
+  grid-template-columns: minmax(180px, 320px) minmax(128px, 150px);
+  gap: 12px;
+  align-items: end;
+}
+
 .search-field {
-  width: min(320px, 100%);
+  width: 100%;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -262,7 +271,7 @@ button:focus-visible {
 }
 
 .task-board {
-  padding: 20px;
+  padding-top: 4px;
 }
 
 .board-header {
@@ -307,7 +316,7 @@ button:focus-visible {
 }
 
 .task-card.is-complete {
-  background: #f8f7f4;
+  background: var(--surface-muted);
 }
 
 .task-card.is-complete .task-title {
@@ -352,17 +361,22 @@ button:focus-visible {
 }
 
 .badge.is-high {
-  background: #feeae7;
+  background: var(--danger-soft);
   color: var(--danger);
 }
 
+.badge.is-normal {
+  background: var(--info-soft);
+  color: var(--info);
+}
+
 .badge.is-low {
-  background: #e5f5ee;
+  background: var(--accent-soft);
   color: var(--accent-dark);
 }
 
 .badge.is-overdue {
-  background: #fff2cf;
+  background: var(--warning-soft);
   color: var(--warning);
 }
 
@@ -395,7 +409,11 @@ button:focus-visible {
 .empty-state {
   display: grid;
   place-items: center;
+  min-height: 280px;
   padding: 26px 16px;
+  border: 1px dashed #b8c1cc;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
   text-align: center;
 }
 
@@ -418,6 +436,43 @@ button:focus-visible {
   margin-bottom: 16px;
 }
 
+.edit-dialog {
+  width: min(520px, calc(100% - 32px));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 0;
+  box-shadow: 0 24px 80px rgba(23, 32, 42, 0.26);
+}
+
+.edit-dialog::backdrop {
+  background: rgba(23, 32, 42, 0.46);
+}
+
+.edit-form {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.dialog-header,
+.dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dialog-header h2 {
+  margin-bottom: 0;
+}
+
+.dialog-actions {
+  justify-content: flex-end;
+  padding-top: 4px;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -430,6 +485,21 @@ button:focus-visible {
   border: 0;
 }
 
+@media (max-width: 860px) {
+  .task-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .toolbar-fields {
+    grid-template-columns: minmax(0, 1fr) minmax(128px, 160px);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 760px) {
   .app-shell {
     width: min(100% - 20px, 640px);
@@ -437,7 +507,6 @@ button:focus-visible {
   }
 
   .app-header,
-  .task-toolbar,
   .board-header {
     flex-direction: column;
     align-items: stretch;
@@ -452,17 +521,11 @@ button:focus-visible {
     text-align: left;
   }
 
-  .task-form {
-    grid-template-columns: 1fr;
-  }
-
+  .task-form,
+  .toolbar-fields,
   .filter-group,
   .stats-grid {
     grid-template-columns: 1fr;
-  }
-
-  .search-field {
-    width: 100%;
   }
 
   .task-card {
